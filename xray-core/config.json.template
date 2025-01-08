@@ -1,0 +1,53 @@
+{
+  "inbounds": [ // Client listening config
+    {
+      "port": "$XRAY_PORT",
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      },
+      "tag": "socks-in"
+    }
+  ],
+  "outbounds": [ // Client outbound config
+      {
+          "protocol": "vless",
+          "tag": "socks-out",
+          "settings": {
+              "vnext": [
+                  {
+                      "address": "$PROXY_SERVER_IP",
+                      "port": $PROXY_SERVER_PORT,
+                      "users": [
+                          {
+                              "id": "$VLESS_USER_UUID",
+                              "flow": "xtls-rprx-vision",
+                              "encryption": "none"
+                          }
+                      ]
+                  }
+              ]
+          },
+          "streamSettings": {
+              "network": "tcp",
+              "security": "reality",
+              "realitySettings": {
+                  "show": false, // Optional, outputs debug information if true
+                  "fingerprint": "$REALITY_UTLS_FINGERPRINT", // Required, simulates the client TLS fingerprint using the uTLS library
+                  "serverName": "$REALITY_DONOR_URL", // One of the server's serverNames
+                  "publicKey": "$REALITY_PBK", // The public key corresponding to the server's private key
+                  "shortId": "$REALITY_SID", // One of the server's shortIds
+                  "spiderX": "$REALITY_SPX" // Initial path and parameters for web crawlers, recommended to be different for each client
+              }
+          }
+      }
+  ],
+  "dns": {
+    "servers": [
+      "8.8.8.8",
+      "223.5.5.5"
+    ]
+  }
+}

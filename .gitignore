@@ -1,0 +1,6 @@
+.env
+logs
+xray-core/**
+!xray-core/config.json.template
+redsocks/**
+!redsocks/redsocks.conf.template
